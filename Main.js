@@ -9,7 +9,8 @@ let isPlaybackPaused = false;
 
 let UIElements = {};
 let clips = [];
-let epsilon = 0.01;
+let offsetEnd = 0.00;
+let offsetStart = 0.00;
 let duration = 0;
 let timer = 0;
 let startTimeMS = 0;
@@ -34,8 +35,8 @@ function draw() {
   background(...bgColor);
   if (isPlaybackStarted && !isPlaybackPaused) {
     for (let i = 0; i < clips.length; ++i)
-      if (clips[i].currentTime > clips[i].duration - epsilon)
-        clips[i].currentTime = 0,
+      if (clips[i].currentTime > clips[i].duration + offsetEnd)
+        clips[i].currentTime = offsetStart,
         clips[i].play();
   }
 
@@ -107,14 +108,14 @@ function startPlayback() {
   UIElements["BUT_PlaybackToggleStart"].elt.innerHTML = "Stop";
 
   for (let i = 0; i < clips.length; ++i)
-    clips[i].currentTime = 0,
+    clips[i].currentTime = offsetStart,
     clips[i].play();
 }
 function stopPlayback() {
   UIElements["BUT_PlaybackToggleStart"].elt.innerHTML = "Start";
 
   for (let i = 0; i < clips.length; ++i)
-    clips[i].currentTime = 0,
+    clips[i].currentTime = offsetStart,
     clips[i].pause();
 }
 function pausePlayback() {
